@@ -9,7 +9,7 @@
 ### Formatter
 
 Formatter : [Clang](https://terminalroot.com.br/2023/07/formate-seu-codigo-com-clang-format.html)
-style : llvm
+
 
 ```bash
 sudo apt install clang-format

@@ -7,6 +7,6 @@
 #define EXPORT_C
 #endif
 
-EXPORT_C void GAME();
+EXPORT_C void GAME ();
 
 #endif
