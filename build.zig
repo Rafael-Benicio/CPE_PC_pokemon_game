@@ -14,6 +14,7 @@ pub fn build(b: *std.Build) void {
     exe.linkSystemLibrary("SDL2");
     exe.addIncludePath(b.path("src"));
     exe.addCSourceFile(.{ .file = b.path("src/main.cpp"), .flags = cflags });
+    exe.addCSourceFile(.{ .file = b.path("src/player.cpp"), .flags = cflags });
 
     // exe.linkLibC();
 
