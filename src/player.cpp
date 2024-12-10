@@ -1,7 +1,7 @@
+#include "player.hpp"
+#include "game.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
-#include "game.hpp"
-#include "player.hpp"
 
 Player::Player() {
     this->squareRect.w = BLOCK_SIZE;

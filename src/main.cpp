@@ -5,13 +5,9 @@
 #include <cstdio>
 #include <stdbool.h>
 
-#include "game.hpp"
 #include "entry_point.h"
+#include "game.hpp"
 #include "player.hpp"
-
-// Define MAX and MIN macros
-#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
-#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 void GAME() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
