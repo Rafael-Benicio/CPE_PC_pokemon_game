@@ -1,5 +1,5 @@
 #include "player.hpp"
-#include "game.hpp"
+#include "../game.hpp"
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 

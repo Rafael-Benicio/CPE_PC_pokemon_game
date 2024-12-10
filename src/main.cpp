@@ -5,9 +5,9 @@
 #include <cstdio>
 #include <stdbool.h>
 
+#include "./game_objects/player.hpp"
 #include "entry_point.h"
 #include "game.hpp"
-#include "player.hpp"
 
 void GAME() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
