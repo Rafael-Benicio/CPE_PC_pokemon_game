@@ -4,8 +4,8 @@
 #include "player.hpp"
 
 Player::Player() {
-    this->squareRect.w = 200;
-    this->squareRect.h = 200;
+    this->squareRect.w = BLOCK_SIZE;
+    this->squareRect.h = BLOCK_SIZE;
     this->squareRect.x = SCREEN_WIDTH / 2 - squareRect.w / 2;
     this->squareRect.y = SCREEN_HEIGHT / 2 - squareRect.h / 2;
 }

@@ -4,3 +4,10 @@
 #define SCREEN_HEIGHT 160
 
 #endif
+
+#if !defined(TILE_SIZE) && !defined(BLOCK_SIZE)
+
+#define TILE_SIZE 8
+#define BLOCK_SIZE 16
+
+#endif
