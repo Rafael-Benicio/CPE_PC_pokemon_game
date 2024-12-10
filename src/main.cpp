@@ -5,16 +5,13 @@
 #include <cstdio>
 #include <stdbool.h>
 
+#include "game.hpp"
 #include "entry_point.h"
 #include "player.hpp"
 
 // Define MAX and MIN macros
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
-
-// Define screen dimensions
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
 
 void GAME() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)

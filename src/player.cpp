@@ -1,10 +1,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
-
+#include "game.hpp"
 #include "player.hpp"
-
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
 
 Player::Player() {
     this->squareRect.w = 200;
