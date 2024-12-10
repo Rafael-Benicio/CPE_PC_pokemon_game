@@ -12,6 +12,8 @@
 #include "entry_point.h"
 #include "game.hpp"
 
+#define TARGET_DELTA_TICK 1000 / FRAME_HATE
+
 void GAME() {
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
         return;
@@ -34,6 +36,8 @@ void GAME() {
     std::list<GameObject*> game_entitys = { new Player() };
 
     while(gameIsRunning) {
+        const int START_TICK = SDL_GetTicks();
+
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         // Input
         SDL_PollEvent(&event);
@@ -60,6 +64,13 @@ void GAME() {
         }
 
         SDL_RenderPresent(renderer);
+
+        // CAPPING FRAME_HATE
+        const int DELTA_TICK = SDL_GetTicks() - START_TICK;
+
+        if(DELTA_TICK < TARGET_DELTA_TICK) {
+            SDL_Delay(TARGET_DELTA_TICK - DELTA_TICK);
+        }
     }
 
     SDL_DestroyRenderer(renderer);
