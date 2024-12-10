@@ -3,9 +3,12 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <cstdio>
+#include <cstdlib>
+#include <list>
 #include <stdbool.h>
 
 #include "./game_objects/player.hpp"
+#include "./interfaces/game_object.hpp"
 #include "entry_point.h"
 #include "game.hpp"
 
@@ -23,9 +26,12 @@ void GAME() {
     if(!renderer)
         return;
 
+    // Game Logic =================================================
+
     bool gameIsRunning = true;
     SDL_Event event;
-    Player player = Player();
+
+    std::list<GameObject*> game_entitys = { new Player() };
 
     while(gameIsRunning) {
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -35,14 +41,23 @@ void GAME() {
             gameIsRunning = false;
         }
 
-        player.control(event);
+        for(GameObject* entity : game_entitys) {
+            entity->control(event);
+        }
 
         // Update
+
+        for(GameObject* entity : game_entitys) {
+            entity->update();
+        }
 
         // Render
 
         SDL_RenderClear(renderer);
-        player.render(renderer);
+
+        for(GameObject* entity : game_entitys) {
+            entity->render(renderer);
+        }
 
         SDL_RenderPresent(renderer);
     }

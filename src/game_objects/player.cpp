@@ -11,7 +11,7 @@ Player::Player() {
 }
 
 void Player::update() {
-    printf("Nao faz nada");
+    // to implement
 }
 
 void Player::render(SDL_Renderer* window) {
