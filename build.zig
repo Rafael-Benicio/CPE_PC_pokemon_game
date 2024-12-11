@@ -12,6 +12,7 @@ pub fn build(b: *std.Build) void {
     exe.linkSystemLibrary("c");
     exe.linkSystemLibrary("c++");
     exe.linkSystemLibrary("SDL2");
+    exe.linkSystemLibrary("SDL2_image");
     exe.addIncludePath(b.path("src"));
     exe.addIncludePath(b.path("src/game_objects"));
     exe.addIncludePath(b.path("src/interfaces/"));
