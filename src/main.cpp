@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <cstdio>
@@ -32,6 +33,7 @@ void GAME() {
 
     bool gameIsRunning = true;
     SDL_Event event;
+    SDL_Texture* texture = IMG_LoadTexture(renderer, "assets/main_char.png");
 
     std::list<GameObject*> game_entitys = { new Player() };
 
@@ -60,7 +62,7 @@ void GAME() {
         SDL_RenderClear(renderer);
 
         for(GameObject* entity : game_entitys) {
-            entity->render(renderer);
+            entity->render(renderer, texture);
         }
 
         SDL_RenderPresent(renderer);
@@ -73,6 +75,7 @@ void GAME() {
         }
     }
 
+    SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

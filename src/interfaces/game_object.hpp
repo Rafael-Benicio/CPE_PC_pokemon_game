@@ -7,7 +7,7 @@
 class GameObject {
     public:
     virtual void update() {};
-    virtual void render(SDL_Renderer* window) {};
+    virtual void render(SDL_Renderer* window, SDL_Texture* texture) {};
     virtual void control(SDL_Event event) {};
 };
 

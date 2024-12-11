@@ -11,9 +11,10 @@ class Player : public GameObject {
     double speed;
     double speedModifier;
     SDL_Rect squareRect;
+    SDL_Rect imageSquare;
     Player();
     virtual void update();
-    virtual void render(SDL_Renderer* window);
+    virtual void render(SDL_Renderer* window, SDL_Texture* texture);
     virtual void control(SDL_Event event);
 };
 
