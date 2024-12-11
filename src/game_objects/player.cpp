@@ -17,10 +17,10 @@ Player::Player() {
     this->imageSquare.x = 0;
     this->imageSquare.y = 0;
 
-    this->squareRect.w = BLOCK_SIZE;
-    this->squareRect.h = BLOCK_SIZE;
-    this->squareRect.x = SCREEN_WIDTH / 2 - squareRect.w / 2;
-    this->squareRect.y = SCREEN_HEIGHT / 2 - squareRect.h / 2;
+    this->mainSquare.w = BLOCK_SIZE;
+    this->mainSquare.h = BLOCK_SIZE;
+    this->mainSquare.x = SCREEN_WIDTH / 2 - mainSquare.w / 2;
+    this->mainSquare.y = SCREEN_HEIGHT / 2 - mainSquare.h / 2;
 }
 
 void Player::update() {
@@ -28,7 +28,7 @@ void Player::update() {
 }
 
 void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
-    SDL_RenderCopy(window, texture, &this->imageSquare, &this->squareRect);
+    SDL_RenderCopy(window, texture, &this->imageSquare, &this->mainSquare);
 }
 
 void Player::control(SDL_Event event) {
@@ -38,16 +38,16 @@ void Player::control(SDL_Event event) {
 
     switch(event.key.keysym.sym) {
     case SDLK_UP:
-        this->squareRect.y -= this->speed * this->speedModifier;
+        this->mainSquare.y -= this->speed * this->speedModifier;
         break;
     case SDLK_DOWN:
-        this->squareRect.y += this->speed * this->speedModifier;
+        this->mainSquare.y += this->speed * this->speedModifier;
         break;
     case SDLK_LEFT:
-        this->squareRect.x -= this->speed * this->speedModifier;
+        this->mainSquare.x -= this->speed * this->speedModifier;
         break;
     case SDLK_RIGHT:
-        this->squareRect.x += this->speed * this->speedModifier;
+        this->mainSquare.x += this->speed * this->speedModifier;
         break;
     }
 }

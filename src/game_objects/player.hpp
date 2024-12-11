@@ -10,7 +10,7 @@ class Player : public GameObject {
     public:
     double speed;
     double speedModifier;
-    SDL_Rect squareRect;
+    SDL_Rect mainSquare;
     SDL_Rect imageSquare;
     Player();
     virtual void update();
