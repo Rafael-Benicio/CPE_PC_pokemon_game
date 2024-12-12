@@ -6,7 +6,10 @@
 #include "../game.hpp"
 #include "player.hpp"
 
+#define IDLE_FRAME 0
+#define MAX_FRAME 4
 #define PLAYER_IMAGE_FRAME_SIZE 64
+#define FRAMES_TO_UPDATE (FRAME_HATE / 4)
 
 Player::Player() {
     this->speed         = ((double)BLOCK_SIZE * 4) / FRAME_HATE;
@@ -23,8 +26,23 @@ Player::Player() {
     this->mainSquare.y = SCREEN_HEIGHT / 2 - mainSquare.h / 2;
 }
 
+void Player::walkingUpdate() {
+    this->frameCounter++;
+
+    if(this->frameCounter % FRAMES_TO_UPDATE == 0) {
+        this->frame_x++;
+
+        if(this->frame_x == MAX_FRAME) {
+            this->frame_x      = IDLE_FRAME;
+            this->frameCounter = 1;
+        }
+    }
+
+    this->imageSquare.x = PLAYER_IMAGE_FRAME_SIZE * frame_x;
+}
+
 void Player::update() {
-    // to implement
+    this->walkingUpdate();
 }
 
 void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
@@ -39,15 +57,19 @@ void Player::control(SDL_Event event) {
     switch(event.key.keysym.sym) {
     case SDLK_UP:
         this->mainSquare.y -= this->speed * this->speedModifier;
+        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::UP;
         break;
     case SDLK_DOWN:
         this->mainSquare.y += this->speed * this->speedModifier;
+        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::DOWN;
         break;
     case SDLK_LEFT:
         this->mainSquare.x -= this->speed * this->speedModifier;
+        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::LEFT;
         break;
     case SDLK_RIGHT:
         this->mainSquare.x += this->speed * this->speedModifier;
+        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::RIGHT;
         break;
     }
 }
