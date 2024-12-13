@@ -26,7 +26,32 @@ Player::Player() {
     this->mainSquare.y = SCREEN_HEIGHT / 2 - mainSquare.h / 2;
 }
 
-void Player::walkingUpdate() {
+void Player::update() {
+    this->walkingMovimentUpdate();
+    this->walkingAnimationUpdate();
+}
+
+void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
+    SDL_RenderCopy(window, texture, &this->imageSquare, &this->mainSquare);
+}
+
+void Player::control(SDL_Event event) {
+    if(SDLK_LCTRL == event.key.keysym.sym) {
+        this->speedModifier = (event.type == SDL_KEYDOWN) ? 1.5 : 1;
+    }
+
+    if(this->movimentIsBlocked)
+        return;
+
+    switch(event.key.keysym.sym) {
+    case SDLK_UP: this->setMovimentRoutine(0, -1, IMAGE_CHAR::UP); break;
+    case SDLK_DOWN: this->setMovimentRoutine(0, 1, IMAGE_CHAR::DOWN); break;
+    case SDLK_LEFT: this->setMovimentRoutine(-1, 0, IMAGE_CHAR::LEFT); break;
+    case SDLK_RIGHT: this->setMovimentRoutine(1, 0, IMAGE_CHAR::RIGHT); break;
+    }
+}
+
+void Player::walkingAnimationUpdate() {
     this->frameCounter++;
 
     if(this->frameCounter % FRAMES_TO_UPDATE == 0) {
@@ -41,35 +66,39 @@ void Player::walkingUpdate() {
     this->imageSquare.x = PLAYER_IMAGE_FRAME_SIZE * frame_x;
 }
 
-void Player::update() {
-    this->walkingUpdate();
+void Player::setMovimentRoutine(int x, int y, int imageChar) {
+    this->movimentIsBlocked = true;
+    this->movimentVector.setPossition(x, y);
+    this->movimentTargetPosition.setPossition(
+    x * BLOCK_SIZE + this->mainSquare.x, y * BLOCK_SIZE + this->mainSquare.y);
+    this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * imageChar;
 }
 
-void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
-    SDL_RenderCopy(window, texture, &this->imageSquare, &this->mainSquare);
+void Player::walkingMovimentUpdate() {
+    this->mainSquare.y += this->movimentVector.y * this->speed * this->speedModifier;
+    this->mainSquare.x += this->movimentVector.x * this->speed * this->speedModifier;
+
+    if(!movimentIsBlocked)
+        return;
+
+    if(this->movimentVector.x == 1 &&
+    this->mainSquare.x >= this->movimentTargetPosition.x) {
+        reachPositionTarget();
+    } else if(this->movimentVector.x == -1 &&
+    this->mainSquare.x <= this->movimentTargetPosition.x) {
+        reachPositionTarget();
+    } else if(this->movimentVector.y == 1 &&
+    this->mainSquare.y >= this->movimentTargetPosition.y) {
+        reachPositionTarget();
+    } else if(this->movimentVector.y == -1 &&
+    this->mainSquare.y <= this->movimentTargetPosition.y) {
+        reachPositionTarget();
+    }
 }
 
-void Player::control(SDL_Event event) {
-    if(SDLK_LCTRL == event.key.keysym.sym) {
-        this->speedModifier = (event.type == SDL_KEYDOWN) ? 1.5 : 1;
-    }
-
-    switch(event.key.keysym.sym) {
-    case SDLK_UP:
-        this->mainSquare.y -= this->speed * this->speedModifier;
-        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::UP;
-        break;
-    case SDLK_DOWN:
-        this->mainSquare.y += this->speed * this->speedModifier;
-        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::DOWN;
-        break;
-    case SDLK_LEFT:
-        this->mainSquare.x -= this->speed * this->speedModifier;
-        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::LEFT;
-        break;
-    case SDLK_RIGHT:
-        this->mainSquare.x += this->speed * this->speedModifier;
-        this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * IMAGE_CHAR::RIGHT;
-        break;
-    }
+void Player::reachPositionTarget() {
+    this->mainSquare.x      = this->movimentTargetPosition.x;
+    this->mainSquare.y      = this->movimentTargetPosition.y;
+    this->movimentIsBlocked = false;
+    this->movimentVector.setPossition(0, 0);
 }
