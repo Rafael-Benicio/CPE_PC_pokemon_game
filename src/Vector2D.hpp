@@ -6,6 +6,7 @@ class Vector2D {
     int x = 0;
     int y = 0;
     void setPossition(int x, int y);
+    bool isEqual(Vector2D vec);
 };
 
 #endif
