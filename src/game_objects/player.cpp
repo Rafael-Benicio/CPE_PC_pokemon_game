@@ -36,8 +36,13 @@ void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
 }
 
 void Player::control(SDL_Event event) {
-    if(SDLK_LCTRL == event.key.keysym.sym) {
-        this->speedModifier = (event.type == SDL_KEYDOWN) ? 1.5 : 1;
+    if(event.type == SDL_KEYDOWN)
+        this->keydownMapping(event);
+}
+
+void Player::keydownMapping(SDL_Event event){
+if(SDLK_LCTRL == event.key.keysym.sym) {
+        this->speedModifier = 1.5;
     }
 
     if(this->movimentIsBlocked)
