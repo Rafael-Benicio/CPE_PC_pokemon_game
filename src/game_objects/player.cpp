@@ -36,12 +36,19 @@ void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
 }
 
 void Player::control(SDL_Event event) {
-    if(event.type == SDL_KEYDOWN)
+    if(event.type == SDL_KEYUP) {
+        this->keyIsPressed = false;
+        return;
+    }
+
+    if(event.type == SDL_KEYDOWN) {
+        this->keyIsPressed = true;
         this->keydownMapping(event);
+    }
 }
 
-void Player::keydownMapping(SDL_Event event){
-if(SDLK_LCTRL == event.key.keysym.sym) {
+void Player::keydownMapping(SDL_Event event) {
+    if(SDLK_LCTRL == event.key.keysym.sym) {
         this->speedModifier = 1.5;
     }
 
@@ -74,8 +81,7 @@ void Player::walkingAnimationUpdate() {
 void Player::setMovimentRoutine(int x, int y, int imageChar) {
     this->movimentIsBlocked = true;
     this->movimentVector.setPossition(x, y);
-    this->movimentTargetPosition.setPossition(
-    x * BLOCK_SIZE + this->mainSquare.x, y * BLOCK_SIZE + this->mainSquare.y);
+    this->setPlayerTargetPosition(x, y);
     this->imageSquare.y = PLAYER_IMAGE_FRAME_SIZE * imageChar;
 }
 
@@ -87,23 +93,41 @@ void Player::walkingMovimentUpdate() {
         return;
 
     if(this->movimentVector.x == 1 &&
-    this->mainSquare.x >= this->movimentTargetPosition.x) {
-        reachPositionTarget();
+    !(this->mainSquare.x >= this->movimentTargetPosition.x)) {
+        return;
     } else if(this->movimentVector.x == -1 &&
-    this->mainSquare.x <= this->movimentTargetPosition.x) {
-        reachPositionTarget();
+    !(this->mainSquare.x <= this->movimentTargetPosition.x)) {
+        return;
     } else if(this->movimentVector.y == 1 &&
-    this->mainSquare.y >= this->movimentTargetPosition.y) {
-        reachPositionTarget();
+    !(this->mainSquare.y >= this->movimentTargetPosition.y)) {
+        return;
     } else if(this->movimentVector.y == -1 &&
-    this->mainSquare.y <= this->movimentTargetPosition.y) {
-        reachPositionTarget();
+    !(this->mainSquare.y <= this->movimentTargetPosition.y)) {
+        return;
     }
+
+    if(this->keyIsPressed) {
+        this->setMainsSquarePosition(&this->movimentTargetPosition);
+        this->setPlayerTargetPosition(
+        this->movimentVector.x, this->movimentVector.y);
+        return;
+    }
+
+    reachPositionTarget();
 }
 
 void Player::reachPositionTarget() {
-    this->mainSquare.x      = this->movimentTargetPosition.x;
-    this->mainSquare.y      = this->movimentTargetPosition.y;
+    this->setMainsSquarePosition(&this->movimentTargetPosition);
     this->movimentIsBlocked = false;
     this->movimentVector.setPossition(0, 0);
+}
+
+void Player::setMainsSquarePosition(Vector2D* vec) {
+    this->mainSquare.x = vec->x;
+    this->mainSquare.y = vec->y;
+}
+
+void Player::setPlayerTargetPosition(int x, int y) {
+    this->movimentTargetPosition.setPossition(
+    x * BLOCK_SIZE + this->mainSquare.x, y * BLOCK_SIZE + this->mainSquare.y);
 }

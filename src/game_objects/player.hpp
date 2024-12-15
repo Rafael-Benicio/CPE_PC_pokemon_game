@@ -13,6 +13,7 @@ class Player : public GameObject {
     double speed;
     double speedModifier;
     bool movimentIsBlocked = false;
+    bool keyIsPressed      = true;
 
     Vector2D movimentVector;
     Vector2D movimentTargetPosition;
@@ -31,6 +32,8 @@ class Player : public GameObject {
     virtual void control(SDL_Event event);
 
     private:
+    void setMainsSquarePosition(Vector2D* vec);
+    void setPlayerTargetPosition(int x, int y);
     void keydownMapping(SDL_Event event);
     void walkingAnimationUpdate();
     void walkingMovimentUpdate();
