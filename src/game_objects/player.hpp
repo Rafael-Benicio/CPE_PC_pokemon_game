@@ -34,7 +34,10 @@ class Player : public GameObject {
     private:
     void setMainsSquarePosition(Vector2D* vec);
     void setPlayerTargetPosition(int x, int y);
+
     void keydownMapping(SDL_Event event);
+    void keyupMappaing(SDL_Event event);
+
     void walkingAnimationUpdate();
     void walkingMovimentUpdate();
     void setMovimentRoutine(int x, int y, int imageChar);

@@ -36,18 +36,23 @@ void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
 }
 
 void Player::control(SDL_Event event) {
-    if(event.type == SDL_KEYUP) {
-        this->keyIsPressed = false;
-        return;
+    switch(event.type) {
+    case SDL_KEYUP: this->keyupMappaing(event); break;
+    case SDL_KEYDOWN: this->keydownMapping(event); break;
     }
+}
 
-    if(event.type == SDL_KEYDOWN) {
-        this->keyIsPressed = true;
-        this->keydownMapping(event);
+void Player::keyupMappaing(SDL_Event event) {
+    this->keyIsPressed = false;
+
+    if(SDLK_LCTRL == event.key.keysym.sym) {
+        this->speedModifier = 1;
     }
 }
 
 void Player::keydownMapping(SDL_Event event) {
+    this->keyIsPressed = true;
+
     if(SDLK_LCTRL == event.key.keysym.sym) {
         this->speedModifier = 1.5;
     }
