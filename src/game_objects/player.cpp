@@ -80,6 +80,11 @@ void Player::walkingAnimationUpdate() {
         }
     }
 
+    if(!this->keyIsPressed && !this->movimentIsBlocked){
+        this->frame_x = IDLE_FRAME;
+        this->frameCounter=1;
+    }
+
     this->imageSquare.x = PLAYER_IMAGE_FRAME_SIZE * frame_x;
 }
 
