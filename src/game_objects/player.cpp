@@ -32,6 +32,13 @@ void Player::update() {
 }
 
 void Player::render(SDL_Renderer* window, std::map<std::pmr::string, SDL_Texture*>& texture) {
+
+    if(texture.find("player") == texture.end()) { // key not founded
+        SDL_SetRenderDrawColor(window, 255, 0, 0, 255);
+        SDL_RenderDrawRect(window, &this->mainSquare);
+        return;
+    }
+
     SDL_RenderCopy(window, texture["player"], &this->imageSquare, &this->mainSquare);
 }
 
