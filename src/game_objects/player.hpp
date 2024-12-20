@@ -28,7 +28,8 @@ class Player : public GameObject {
     Player();
 
     virtual void update();
-    virtual void render(SDL_Renderer* window, SDL_Texture* texture);
+    virtual void render(SDL_Renderer* window,
+    std::map<std::pmr::string, SDL_Texture*>& texture);
     virtual void control(SDL_Event event);
 
     private:

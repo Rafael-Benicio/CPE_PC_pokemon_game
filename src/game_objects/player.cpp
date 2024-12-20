@@ -31,8 +31,8 @@ void Player::update() {
     this->walkingAnimationUpdate();
 }
 
-void Player::render(SDL_Renderer* window, SDL_Texture* texture) {
-    SDL_RenderCopy(window, texture, &this->imageSquare, &this->mainSquare);
+void Player::render(SDL_Renderer* window, std::map<std::pmr::string, SDL_Texture*>& texture) {
+    SDL_RenderCopy(window, texture["player"], &this->imageSquare, &this->mainSquare);
 }
 
 void Player::control(SDL_Event event) {
@@ -80,9 +80,9 @@ void Player::walkingAnimationUpdate() {
         }
     }
 
-    if(!this->keyIsPressed && !this->movimentIsBlocked){
-        this->frame_x = IDLE_FRAME;
-        this->frameCounter=1;
+    if(!this->keyIsPressed && !this->movimentIsBlocked) {
+        this->frame_x      = IDLE_FRAME;
+        this->frameCounter = 1;
     }
 
     this->imageSquare.x = PLAYER_IMAGE_FRAME_SIZE * frame_x;

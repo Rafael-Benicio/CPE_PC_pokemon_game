@@ -6,7 +6,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <list>
+#include <map>
 #include <stdbool.h>
+#include <string>
 
 #include "./game_objects/player.hpp"
 #include "./interfaces/game_object.hpp"
@@ -33,9 +35,10 @@ void GAME() {
 
     bool gameIsRunning = true;
     SDL_Event event;
-    SDL_Texture* texture = IMG_LoadTexture(renderer, "assets/main_char.png");
-
+    std::map<std::pmr::string, SDL_Texture*> textures;
     std::list<GameObject*> game_entitys = { new Player() };
+
+    textures.insert({ "player", IMG_LoadTexture(renderer, "assets/main_char.png") });
 
     while(gameIsRunning) {
         const int START_TICK = SDL_GetTicks();
@@ -62,7 +65,7 @@ void GAME() {
         SDL_RenderClear(renderer);
 
         for(GameObject* entity : game_entitys) {
-            entity->render(renderer, texture);
+            entity->render(renderer, textures);
         }
 
         SDL_RenderPresent(renderer);
@@ -75,7 +78,7 @@ void GAME() {
         }
     }
 
-    SDL_DestroyTexture(texture);
+    // SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
